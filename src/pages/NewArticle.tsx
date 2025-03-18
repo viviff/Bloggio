@@ -7,9 +7,9 @@ const NewArticle: React.FC = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Generate New Article</h1>
+        <h1 className="text-3xl font-bold">Générer un nouvel article</h1>
         <p className="text-lg text-gray-600 dark:text-gray-300">
-          Fill out the form below to create a new high-quality article.
+          Remplissez le formulaire ci-dessous pour créer un nouvel article de qualité.
         </p>
         
         <ArticleForm />

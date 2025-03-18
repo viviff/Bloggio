@@ -25,42 +25,42 @@ interface PricingPlan {
 const pricingPlans: PricingPlan[] = [
   {
     id: 'basic',
-    name: 'Basic',
+    name: 'Basique',
     price: 19,
     credits: 10,
     features: [
-      '10 article generations',
-      'Standard image quality',
-      'Email support',
-      '7-day history',
+      '10 générations d\'articles',
+      'Qualité d\'image standard',
+      'Support par email',
+      'Historique de 7 jours',
     ],
   },
   {
     id: 'pro',
-    name: 'Professional',
+    name: 'Professionnel',
     price: 49,
     credits: 30,
     features: [
-      '30 article generations',
-      'Premium image quality',
-      'Priority email support',
-      '30-day history',
-      'WordPress integration',
+      '30 générations d\'articles',
+      'Qualité d\'image premium',
+      'Support par email prioritaire',
+      'Historique de 30 jours',
+      'Intégration WordPress',
     ],
     popular: true,
   },
   {
     id: 'business',
-    name: 'Business',
+    name: 'Entreprise',
     price: 99,
     credits: 70,
     features: [
-      '70 article generations',
-      'Highest image quality',
-      'Priority email & phone support',
-      '90-day history',
-      'WordPress integration',
-      'Custom branding',
+      '70 générations d\'articles',
+      'Qualité d\'image supérieure',
+      'Support prioritaire par email & téléphone',
+      'Historique de 90 jours',
+      'Intégration WordPress',
+      'Personnalisation de marque',
     ],
   },
 ];
@@ -87,8 +87,8 @@ const CreditSystem: React.FC = () => {
       const selectedPlanData = pricingPlans.find(plan => plan.id === selectedPlan);
       
       toast({
-        title: "Purchase successful",
-        description: `You've added ${selectedPlanData?.credits} credits to your account.`,
+        title: "Achat réussi",
+        description: `Vous avez ajouté ${selectedPlanData?.credits} crédits à votre compte.`,
       });
       
       // In a real app, the user's credits would be updated via the API
@@ -96,8 +96,8 @@ const CreditSystem: React.FC = () => {
       setSelectedPlan(null);
     } catch (error) {
       toast({
-        title: "Purchase failed",
-        description: "There was an error processing your payment",
+        title: "Échec de l'achat",
+        description: "Une erreur s'est produite lors du traitement de votre paiement",
         variant: "destructive",
       });
     } finally {
@@ -110,9 +110,9 @@ const CreditSystem: React.FC = () => {
       <div className="glass-card p-6 rounded-lg mb-8">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-4 md:mb-0">
-            <h3 className="text-lg font-medium">Current Credit Balance</h3>
+            <h3 className="text-lg font-medium">Solde de crédits actuel</h3>
             <p className="text-sm text-muted-foreground">
-              You have credits available for generating articles
+              Vous avez des crédits disponibles pour générer des articles
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -121,13 +121,13 @@ const CreditSystem: React.FC = () => {
               {user?.credits || 0}
             </div>
             <div className="text-sm text-muted-foreground">
-              credits
+              crédits
             </div>
           </div>
         </div>
       </div>
 
-      <h2 className="text-3xl font-semibold text-center mb-6">Choose a Plan</h2>
+      <h2 className="text-3xl font-semibold text-center mb-6">Choisissez un forfait</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {pricingPlans.map((plan) => (
@@ -143,18 +143,18 @@ const CreditSystem: React.FC = () => {
           >
             {plan.popular && (
               <span className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/2 bg-primary text-white text-xs px-3 py-1 rounded-full">
-                Popular
+                Populaire
               </span>
             )}
             
             <CardHeader>
               <CardTitle>{plan.name}</CardTitle>
               <CardDescription>
-                {plan.credits} article credits
+                {plan.credits} crédits d'articles
               </CardDescription>
               <div className="mt-2">
-                <span className="text-3xl font-bold">${plan.price}</span>
-                <span className="text-muted-foreground ml-1">one-time</span>
+                <span className="text-3xl font-bold">{plan.price}€</span>
+                <span className="text-muted-foreground ml-1">unique</span>
               </div>
             </CardHeader>
             
@@ -175,7 +175,7 @@ const CreditSystem: React.FC = () => {
                 className="w-full button-transition"
                 onClick={() => handleSelectPlan(plan.id)}
               >
-                Select Plan
+                Sélectionner
               </Button>
             </CardFooter>
           </Card>
@@ -187,10 +187,10 @@ const CreditSystem: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-4 md:mb-0">
               <h3 className="text-lg font-medium">
-                Selected Plan: {pricingPlans.find(plan => plan.id === selectedPlan)?.name}
+                Forfait sélectionné : {pricingPlans.find(plan => plan.id === selectedPlan)?.name}
               </h3>
               <p className="text-sm text-muted-foreground">
-                ${pricingPlans.find(plan => plan.id === selectedPlan)?.price}.00 for {pricingPlans.find(plan => plan.id === selectedPlan)?.credits} credits
+                {pricingPlans.find(plan => plan.id === selectedPlan)?.price}€ pour {pricingPlans.find(plan => plan.id === selectedPlan)?.credits} crédits
               </p>
             </div>
             <Button
@@ -201,12 +201,12 @@ const CreditSystem: React.FC = () => {
               {isProcessing ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
+                  Traitement en cours...
                 </>
               ) : (
                 <>
                   <CreditCard className="mr-2 h-4 w-4" />
-                  Complete Purchase
+                  Finaliser l'achat
                 </>
               )}
             </Button>

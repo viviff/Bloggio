@@ -13,9 +13,9 @@ const Register: React.FC = () => {
       <main className="flex-1 flex items-center justify-center py-16 bg-gray-50 dark:bg-gray-950">
         <div className="container mx-auto px-4 max-w-md">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold mb-2">Create an Account</h1>
+            <h1 className="text-3xl font-bold mb-2">Créer un compte</h1>
             <p className="text-gray-600 dark:text-gray-300">
-              Join ArticleGen and start creating high-quality content
+              Rejoignez ArticleGen et commencez à créer du contenu de qualité
             </p>
           </div>
           
@@ -23,9 +23,9 @@ const Register: React.FC = () => {
           
           <div className="mt-8 text-center">
             <p className="text-gray-600 dark:text-gray-300">
-              Already have an account?{' '}
+              Vous avez déjà un compte ?{' '}
               <Link to="/login" className="text-primary hover:underline">
-                Log in
+                Connexion
               </Link>
             </p>
           </div>

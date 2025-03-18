@@ -16,9 +16,9 @@ const EditStructure: React.FC = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Edit Article Structure</h1>
+        <h1 className="text-3xl font-bold">Modifier la structure de l'article</h1>
         <p className="text-lg text-gray-600 dark:text-gray-300">
-          Review and modify the generated structure before proceeding to article creation.
+          Révisez et modifiez la structure générée avant de passer à la création de l'article.
         </p>
         
         <ArticleStructure 

@@ -20,11 +20,11 @@ import { Loader2, Link2, Hash, AlignLeft, Info } from 'lucide-react';
 
 // Validation schema
 const articleFormSchema = z.object({
-  title: z.string().min(5, 'Title must be at least 5 characters'),
-  sourceUrl1: z.string().url('Please enter a valid URL').or(z.string().length(0)),
-  sourceUrl2: z.string().url('Please enter a valid URL').or(z.string().length(0)),
-  keyword: z.string().min(1, 'Please enter a main keyword'),
-  wordCount: z.coerce.number().min(300, 'Word count must be at least 300').max(5000, 'Word count cannot exceed 5000'),
+  title: z.string().min(5, 'Le titre doit comporter au moins 5 caractères'),
+  sourceUrl1: z.string().url('Veuillez entrer une URL valide').or(z.string().length(0)),
+  sourceUrl2: z.string().url('Veuillez entrer une URL valide').or(z.string().length(0)),
+  keyword: z.string().min(1, 'Veuillez entrer un mot-clé principal'),
+  wordCount: z.coerce.number().min(300, 'Le nombre de mots doit être d\'au moins 300').max(5000, 'Le nombre de mots ne peut pas dépasser 5000'),
   additionalInfo: z.string(),
 });
 
@@ -91,8 +91,8 @@ const ArticleForm: React.FC = () => {
     // Check if user has enough credits
     if (user && user.credits < 1) {
       toast({
-        title: "Insufficient credits",
-        description: "Please purchase more credits to generate articles",
+        title: "Crédits insuffisants",
+        description: "Veuillez acheter plus de crédits pour générer des articles",
         variant: "destructive",
       });
       return;
@@ -106,8 +106,8 @@ const ArticleForm: React.FC = () => {
       
       // Mock successful response
       toast({
-        title: "Request submitted",
-        description: "Your article structure is being generated",
+        title: "Demande soumise",
+        description: "La structure de votre article est en cours de génération",
       });
       
       // Navigate to the waiting page
@@ -119,8 +119,8 @@ const ArticleForm: React.FC = () => {
       });
     } catch (error) {
       toast({
-        title: "Submission failed",
-        description: "There was an error submitting your request",
+        title: "Échec de la soumission",
+        description: "Une erreur s'est produite lors de la soumission de votre demande",
         variant: "destructive",
       });
     } finally {
@@ -131,9 +131,9 @@ const ArticleForm: React.FC = () => {
   return (
     <Card className="glass-card w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>Generate New Article</CardTitle>
+        <CardTitle>Générer un nouvel article</CardTitle>
         <CardDescription>
-          Fill out the form below to generate a new article structure.
+          Remplissez le formulaire ci-dessous pour générer une nouvelle structure d'article.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -141,14 +141,14 @@ const ArticleForm: React.FC = () => {
           <div className="space-y-2">
             <Label htmlFor="title" className="flex items-center">
               <AlignLeft className="h-4 w-4 mr-2" />
-              Article Title
+              Titre de l'article
             </Label>
             <Input
               id="title"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              placeholder="e.g. The Ultimate Guide to Content Creation"
+              placeholder="ex: Le guide ultime de la création de contenu"
               className={formErrors.title ? 'border-red-500' : ''}
             />
             {formErrors.title && (
@@ -159,14 +159,14 @@ const ArticleForm: React.FC = () => {
           <div className="space-y-2">
             <Label htmlFor="sourceUrl1" className="flex items-center">
               <Link2 className="h-4 w-4 mr-2" />
-              Source URL #1
+              URL source #1
             </Label>
             <Input
               id="sourceUrl1"
               name="sourceUrl1"
               value={formData.sourceUrl1}
               onChange={handleChange}
-              placeholder="https://example.com/source1"
+              placeholder="https://exemple.com/source1"
               className={formErrors.sourceUrl1 ? 'border-red-500' : ''}
             />
             {formErrors.sourceUrl1 && (
@@ -177,14 +177,14 @@ const ArticleForm: React.FC = () => {
           <div className="space-y-2">
             <Label htmlFor="sourceUrl2" className="flex items-center">
               <Link2 className="h-4 w-4 mr-2" />
-              Source URL #2 (Optional)
+              URL source #2 (Optionnel)
             </Label>
             <Input
               id="sourceUrl2"
               name="sourceUrl2"
               value={formData.sourceUrl2}
               onChange={handleChange}
-              placeholder="https://example.com/source2"
+              placeholder="https://exemple.com/source2"
               className={formErrors.sourceUrl2 ? 'border-red-500' : ''}
             />
             {formErrors.sourceUrl2 && (
@@ -195,14 +195,14 @@ const ArticleForm: React.FC = () => {
           <div className="space-y-2">
             <Label htmlFor="keyword" className="flex items-center">
               <Hash className="h-4 w-4 mr-2" />
-              Main Keyword
+              Mot-clé principal
             </Label>
             <Input
               id="keyword"
               name="keyword"
               value={formData.keyword}
               onChange={handleChange}
-              placeholder="e.g. content creation"
+              placeholder="ex: création de contenu"
               className={formErrors.keyword ? 'border-red-500' : ''}
             />
             {formErrors.keyword && (
@@ -212,7 +212,7 @@ const ArticleForm: React.FC = () => {
 
           <div className="space-y-2">
             <Label htmlFor="wordCount" className="flex items-center">
-              Word Count
+              Nombre de mots
             </Label>
             <Input
               id="wordCount"
@@ -232,14 +232,14 @@ const ArticleForm: React.FC = () => {
           <div className="space-y-2">
             <Label htmlFor="additionalInfo" className="flex items-center">
               <Info className="h-4 w-4 mr-2" />
-              Additional Information (Optional)
+              Informations complémentaires (Optionnel)
             </Label>
             <Textarea
               id="additionalInfo"
               name="additionalInfo"
               value={formData.additionalInfo}
               onChange={handleChange}
-              placeholder="Add any specific requirements or notes about the article"
+              placeholder="Ajoutez des exigences ou notes spécifiques concernant l'article"
               rows={4}
               className={formErrors.additionalInfo ? 'border-red-500' : ''}
             />
@@ -251,7 +251,7 @@ const ArticleForm: React.FC = () => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="text-sm text-muted-foreground">
-          Cost: 1 credit
+          Coût: 1 crédit
         </div>
         <Button 
           onClick={handleSubmit}
@@ -261,10 +261,10 @@ const ArticleForm: React.FC = () => {
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating...
+              Génération en cours...
             </>
           ) : (
-            'Generate Article Structure'
+            'Générer la structure d\'article'
           )}
         </Button>
       </CardFooter>

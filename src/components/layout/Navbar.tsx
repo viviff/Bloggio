@@ -44,28 +44,28 @@ const Navbar: React.FC = () => {
             {isAuthenticated ? (
               <>
                 <Link to="/dashboard" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                  Dashboard
+                  Tableau de bord
                 </Link>
                 <Link to="/new-article" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                  New Article
+                  Nouvel article
                 </Link>
                 <Link to="/credits" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                  Credits: {user?.credits}
+                  Crédits: {user?.credits}
                 </Link>
                 <div className="flex items-center space-x-2 pl-4 border-l border-gray-200 dark:border-gray-700">
                   <ThemeToggle />
                   <Button variant="ghost" onClick={handleLogout} className="font-normal">
-                    Log out
+                    Déconnexion
                   </Button>
                 </div>
               </>
             ) : (
               <>
                 <Link to="/login" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                  Log in
+                  Connexion
                 </Link>
                 <Link to="/register" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                  Register
+                  Inscription
                 </Link>
                 <ThemeToggle />
               </>
@@ -101,7 +101,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <LayoutDashboard className="mr-3 h-5 w-5" />
-                  Dashboard
+                  Tableau de bord
                 </Link>
                 <Link 
                   to="/new-article" 
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <FileText className="mr-3 h-5 w-5" />
-                  New Article
+                  Nouvel article
                 </Link>
                 <Link 
                   to="/credits" 
@@ -117,7 +117,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <CreditCard className="mr-3 h-5 w-5" />
-                  Credits: {user?.credits}
+                  Crédits: {user?.credits}
                 </Link>
                 <button 
                   onClick={() => {
@@ -127,7 +127,7 @@ const Navbar: React.FC = () => {
                   className="w-full flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <LogOut className="mr-3 h-5 w-5" />
-                  Log out
+                  Déconnexion
                 </button>
               </>
             ) : (
@@ -138,7 +138,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <User className="mr-3 h-5 w-5" />
-                  Log in
+                  Connexion
                 </Link>
                 <Link 
                   to="/register" 
@@ -146,7 +146,7 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <User className="mr-3 h-5 w-5" />
-                  Register
+                  Inscription
                 </Link>
               </>
             )}

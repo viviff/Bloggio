@@ -24,22 +24,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
   const navItems = [
     {
-      name: 'Dashboard',
+      name: 'Tableau de bord',
       path: '/dashboard',
       icon: <LayoutDashboard className="h-5 w-5" />,
     },
     {
-      name: 'New Article',
+      name: 'Nouvel article',
       path: '/new-article',
       icon: <PlusCircle className="h-5 w-5" />,
     },
     {
-      name: 'Credits',
+      name: 'Crédits',
       path: '/credits',
       icon: <CreditCard className="h-5 w-5" />,
     },
     {
-      name: 'Settings',
+      name: 'Paramètres',
       path: '/settings',
       icon: <Settings className="h-5 w-5" />,
     },
@@ -80,7 +80,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               </p>
             </div>
             <div className="bg-primary/10 dark:bg-primary/20 rounded-md px-3 py-1.5 text-sm font-medium flex items-center justify-between">
-              <span className="text-gray-700 dark:text-gray-300">Credits</span>
+              <span className="text-gray-700 dark:text-gray-300">Crédits</span>
               <span className="font-semibold text-primary">{user?.credits}</span>
             </div>
           </div>
@@ -105,7 +105,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           <div className="pt-4 mt-6 border-t border-gray-200 dark:border-gray-800">
             <div className="px-3 py-2">
               <div className="text-xs text-gray-500 dark:text-gray-400">
-                {user?.role === 'admin' ? 'Administrator' : 'Standard User'}
+                {user?.role === 'admin' ? 'Administrateur' : 'Utilisateur standard'}
               </div>
             </div>
           </div>

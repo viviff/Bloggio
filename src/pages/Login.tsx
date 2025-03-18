@@ -13,9 +13,9 @@ const Login: React.FC = () => {
       <main className="flex-1 flex items-center justify-center py-16 bg-gray-50 dark:bg-gray-950">
         <div className="container mx-auto px-4 max-w-md">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
+            <h1 className="text-3xl font-bold mb-2">Bienvenue</h1>
             <p className="text-gray-600 dark:text-gray-300">
-              Log in to access your articles and credits
+              Connectez-vous pour accéder à vos articles et crédits
             </p>
           </div>
           
@@ -23,9 +23,9 @@ const Login: React.FC = () => {
           
           <div className="mt-8 text-center">
             <p className="text-gray-600 dark:text-gray-300">
-              Don't have an account yet?{' '}
+              Vous n'avez pas encore de compte ?{' '}
               <Link to="/register" className="text-primary hover:underline">
-                Create an account
+                Créer un compte
               </Link>
             </p>
           </div>

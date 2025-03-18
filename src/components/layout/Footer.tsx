@@ -19,21 +19,21 @@ const Footer: React.FC = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-6 md:mb-0">
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">Product</h4>
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">Produit</h4>
               <ul className="space-y-2">
                 <li>
                   <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                    Features
+                    Fonctionnalités
                   </Link>
                 </li>
                 <li>
                   <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                    Pricing
+                    Tarifs
                   </Link>
                 </li>
                 <li>
                   <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                    Testimonials
+                    Témoignages
                   </Link>
                 </li>
               </ul>
@@ -54,23 +54,23 @@ const Footer: React.FC = () => {
                 </li>
                 <li>
                   <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                    Contact Us
+                    Nous contacter
                   </Link>
                 </li>
               </ul>
             </div>
             
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">Legal</h4>
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">Légal</h4>
               <ul className="space-y-2">
                 <li>
                   <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                    Privacy Policy
+                    Politique de confidentialité
                   </Link>
                 </li>
                 <li>
                   <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-foreground transition-colors">
-                    Terms of Service
+                    Conditions d'utilisation
                   </Link>
                 </li>
               </ul>
@@ -80,9 +80,9 @@ const Footer: React.FC = () => {
         
         <div className="pt-8 mt-8 border-t border-gray-200 dark:border-gray-800">
           <p className="text-center text-xs text-gray-600 dark:text-gray-400">
-            © {currentYear} ArticleGen. All rights reserved. Made with{' '}
+            © {currentYear} ArticleGen. Tous droits réservés. Fait avec{' '}
             <Heart className="inline-block h-3 w-3 text-red-500 align-middle" />{' '}
-            by ArticleGen.
+            par ArticleGen.
           </p>
         </div>
       </div>

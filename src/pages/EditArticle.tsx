@@ -16,9 +16,9 @@ const EditArticle: React.FC = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Edit Generated Article</h1>
+        <h1 className="text-3xl font-bold">Modifier l'article généré</h1>
         <p className="text-lg text-gray-600 dark:text-gray-300">
-          Review and refine your article before publishing or downloading.
+          Révisez et affinez votre article avant de le publier ou de le télécharger.
         </p>
         
         <ArticleEditor 
