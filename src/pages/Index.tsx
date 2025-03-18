@@ -21,35 +21,35 @@ const Index: React.FC = () => {
       <Navbar />
       
       <main className="flex-1">
-        {/* Hero Section */}
+        {/* Section Héro */}
         <section className="relative overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 py-16 md:py-24">
           <div className="container mx-auto px-4 text-center">
             <div className="animate-fade-in max-w-3xl mx-auto">
               <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-                Generate <span className="text-primary">High-Quality</span> Articles with AI
+                Générez des Articles de <span className="text-primary">Haute Qualité</span> avec l'IA
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-10">
-                Create SEO-optimized content for your blog in minutes, not hours. 
-                Our AI generates well-researched articles based on your instructions.
+                Créez du contenu optimisé pour le SEO pour votre blog en quelques minutes, pas en heures. 
+                Notre IA génère des articles bien documentés selon vos instructions.
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
                 <Link to="/register">
                   <Button size="lg" className="w-full sm:w-auto button-transition">
-                    Get Started
+                    Commencer
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link to="/login">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto button-transition">
-                    Log In
+                    Se connecter
                   </Button>
                 </Link>
               </div>
               
               <div className="relative mt-12 mb-8">
                 <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 px-4 text-gray-400">
-                  See it in action
+                  Voir en action
                 </div>
                 <div className="border-t border-gray-200 dark:border-gray-800"></div>
               </div>
@@ -57,7 +57,7 @@ const Index: React.FC = () => {
               <div className="glass-card overflow-hidden rounded-xl shadow-soft border border-gray-200 dark:border-gray-800">
                 <img 
                   src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" 
-                  alt="Article Generator Interface" 
+                  alt="Interface du générateur d'articles" 
                   className="w-full h-auto rounded-t-lg"
                   loading="lazy"
                 />
@@ -66,13 +66,13 @@ const Index: React.FC = () => {
           </div>
         </section>
         
-        {/* Features Section */}
+        {/* Section Fonctionnalités */}
         <section className="py-16 md:py-24 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Comment ça fonctionne</h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                From source material to a publish-ready blog post in three simple steps
+                Du matériel source à un article prêt à publier en trois étapes simples
               </p>
             </div>
             
@@ -81,10 +81,10 @@ const Index: React.FC = () => {
                 <div className="bg-primary/10 dark:bg-primary/20 p-3 rounded-full mb-4">
                   <FileText className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">1. Input Your Sources</h3>
+                <h3 className="text-xl font-semibold mb-2">1. Saisissez vos sources</h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Enter your article title, main keyword, and up to two reference URLs. 
-                  Add any specific instructions for customization.
+                  Entrez le titre de votre article, le mot-clé principal et jusqu'à deux URLs de référence. 
+                  Ajoutez des instructions spécifiques pour la personnalisation.
                 </p>
               </div>
               
@@ -92,10 +92,10 @@ const Index: React.FC = () => {
                 <div className="bg-primary/10 dark:bg-primary/20 p-3 rounded-full mb-4">
                   <Sparkles className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">2. Edit Structure</h3>
+                <h3 className="text-xl font-semibold mb-2">2. Modifiez la structure</h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Review and modify the AI-generated article structure. 
-                  Add, remove, or rearrange sections to fit your needs.
+                  Examinez et modifiez la structure d'article générée par l'IA. 
+                  Ajoutez, supprimez ou réorganisez les sections selon vos besoins.
                 </p>
               </div>
               
@@ -103,36 +103,36 @@ const Index: React.FC = () => {
                 <div className="bg-primary/10 dark:bg-primary/20 p-3 rounded-full mb-4">
                   <Upload className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">3. Publish or Download</h3>
+                <h3 className="text-xl font-semibold mb-2">3. Publiez ou téléchargez</h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Edit the final article, generate a custom thumbnail, 
-                  and publish directly to WordPress or download as a text file.
+                  Modifiez l'article final, générez une vignette personnalisée, 
+                  et publiez directement sur WordPress ou téléchargez sous forme de fichier texte.
                 </p>
               </div>
             </div>
           </div>
         </section>
         
-        {/* Benefits Section */}
+        {/* Section Avantages */}
         <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-950">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row gap-12 items-center">
               <div className="md:w-1/2">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Why Choose ArticleGen
+                  Pourquoi choisir ArticleGen
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                  Our AI article generator helps you create high-quality, 
-                  SEO-optimized content in minutes, not hours.
+                  Notre générateur d'articles IA vous aide à créer du contenu de haute qualité, 
+                  optimisé pour le SEO en quelques minutes, pas en heures.
                 </p>
                 
                 <ul className="space-y-4">
                   {[
-                    'High-quality, plagiarism-free content',
-                    'SEO-optimized articles with custom keywords',
-                    'Direct WordPress integration',
-                    'Custom thumbnail generation',
-                    'Simple pay-per-article pricing'
+                    'Contenu de haute qualité sans plagiat',
+                    'Articles optimisés SEO avec mots-clés personnalisés',
+                    'Intégration directe avec WordPress',
+                    'Génération de vignettes personnalisées',
+                    'Tarification simple à l\'article'
                   ].map((benefit, index) => (
                     <li key={index} className="flex items-start">
                       <CheckCircle2 className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
@@ -144,7 +144,7 @@ const Index: React.FC = () => {
                 <div className="mt-10">
                   <Link to="/register">
                     <Button size="lg" className="button-transition">
-                      Start Creating Articles
+                      Commencer à créer des articles
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
@@ -154,7 +154,7 @@ const Index: React.FC = () => {
               <div className="md:w-1/2 glass-card rounded-xl overflow-hidden shadow-soft">
                 <img 
                   src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                  alt="Person writing content" 
+                  alt="Personne rédigeant du contenu" 
                   className="w-full h-auto"
                   loading="lazy"
                 />
@@ -163,37 +163,37 @@ const Index: React.FC = () => {
           </div>
         </section>
         
-        {/* Testimonials Section */}
+        {/* Section Témoignages */}
         <section className="py-16 md:py-24 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                What Our Users Say
+                Ce que disent nos utilisateurs
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Join thousands of content creators who save time with ArticleGen
+                Rejoignez des milliers de créateurs de contenu qui gagnent du temps avec ArticleGen
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  name: 'Sarah Johnson',
-                  role: 'Content Marketer',
+                  name: 'Sarah Durand',
+                  role: 'Responsable marketing de contenu',
                   image: 'https://randomuser.me/api/portraits/women/12.jpg',
-                  quote: 'ArticleGen has transformed my content creation process. What used to take me hours now takes minutes, and the quality is just as good if not better.'
+                  quote: 'ArticleGen a transformé mon processus de création de contenu. Ce qui me prenait des heures prend maintenant quelques minutes, et la qualité est tout aussi bonne, voire meilleure.'
                 },
                 {
-                  name: 'Michael Chen',
-                  role: 'SEO Specialist',
+                  name: 'Michel Chen',
+                  role: 'Spécialiste SEO',
                   image: 'https://randomuser.me/api/portraits/men/32.jpg',
-                  quote: 'The SEO optimization is amazing. Our articles generated through ArticleGen rank much better than our manually created content. It\'s been a game-changer.'
+                  quote: 'L\'optimisation SEO est incroyable. Nos articles générés via ArticleGen sont bien mieux classés que notre contenu créé manuellement. Ça a changé la donne.'
                 },
                 {
-                  name: 'Emily Williams',
-                  role: 'Blog Owner',
+                  name: 'Émilie Lefèvre',
+                  role: 'Propriétaire de blog',
                   image: 'https://randomuser.me/api/portraits/women/23.jpg',
-                  quote: 'As someone who runs multiple blogs, ArticleGen has allowed me to scale my content production without sacrificing quality. The WordPress integration is seamless.'
+                  quote: 'En tant que gestionnaire de plusieurs blogs, ArticleGen m\'a permis d\'augmenter ma production de contenu sans sacrifier la qualité. L\'intégration WordPress est parfaite.'
                 }
               ].map((testimonial, index) => (
                 <div key={index} className="glass-card rounded-lg p-6 flex flex-col animate-slide-in" style={{ animationDelay: `${index * 0.1}s` }}>
@@ -219,27 +219,27 @@ const Index: React.FC = () => {
           </div>
         </section>
         
-        {/* CTA Section */}
+        {/* Section CTA */}
         <section className="py-12 md:py-20 bg-primary/5 dark:bg-primary/10">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Ready to Transform Your Content Creation?
+                Prêt à transformer votre création de contenu ?
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-10">
-                Start creating high-quality articles in minutes with our AI-powered platform.
+                Commencez à créer des articles de haute qualité en quelques minutes avec notre plateforme alimentée par l'IA.
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link to="/register">
                   <Button size="lg" className="w-full sm:w-auto button-transition">
-                    Get Started Now
+                    Commencer maintenant
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link to="/login">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto button-transition">
-                    Log In
+                    Se connecter
                   </Button>
                 </Link>
               </div>

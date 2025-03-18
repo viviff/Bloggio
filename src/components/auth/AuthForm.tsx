@@ -9,19 +9,19 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff, Loader2, Mail } from 'lucide-react';
 
-// Validation schemas
+// Schémas de validation
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().email('Adresse email invalide'),
+  password: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
 });
 
 const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string().min(6, 'Password must be at least 6 characters'),
+  name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  email: z.string().email('Adresse email invalide'),
+  password: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
+  confirmPassword: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
 }).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+  message: "Les mots de passe ne correspondent pas",
   path: ["confirmPassword"],
 });
 
@@ -51,7 +51,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       [e.target.name]: e.target.value,
     });
     
-    // Clear specific field error when typing
+    // Effacer l'erreur spécifique au champ lors de la saisie
     if (formErrors[e.target.name]) {
       setFormErrors({
         ...formErrors,
@@ -93,21 +93,21 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
         const { email, password } = formData as LoginFormData;
         await login(email, password);
         toast({
-          title: "Login successful",
-          description: "Welcome back to ArticleGen",
+          title: "Connexion réussie",
+          description: "Bienvenue sur ArticleGen",
         });
         navigate('/dashboard');
       } else {
         const { name, email, password } = formData as RegisterFormData;
         await register(name, email, password);
         toast({
-          title: "Registration successful",
-          description: "Your account has been created",
+          title: "Inscription réussie",
+          description: "Votre compte a été créé",
         });
         navigate('/dashboard');
       }
     } catch (err) {
-      // Error is handled by auth context
+      // L'erreur est gérée par le contexte d'authentification
     }
   };
 
@@ -115,12 +115,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
     try {
       await loginWithGoogle();
       toast({
-        title: "Google login successful",
-        description: "Welcome to ArticleGen",
+        title: "Connexion Google réussie",
+        description: "Bienvenue sur ArticleGen",
       });
       navigate('/dashboard');
     } catch (err) {
-      // Error is handled by auth context
+      // L'erreur est gérée par le contexte d'authentification
     }
   };
 
@@ -132,7 +132,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
     <div className="w-full max-w-sm mx-auto">
       <div className="glass-card p-8 rounded-lg w-full">
         <h2 className="text-2xl font-semibold mb-6 text-center">
-          {type === 'login' ? 'Log in to your account' : 'Create a new account'}
+          {type === 'login' ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}
         </h2>
 
         {error && (
@@ -144,12 +144,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {type === 'register' && (
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">Nom complet</Label>
               <Input
                 id="name"
                 name="name"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Jean Dupont"
                 value={(formData as RegisterFormData).name || ''}
                 onChange={handleChange}
                 className={formErrors.name ? 'border-red-500' : ''}
@@ -166,7 +166,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
               id="email"
               name="email"
               type="email"
-              placeholder="name@example.com"
+              placeholder="nom@exemple.com"
               value={formData.email}
               onChange={handleChange}
               className={formErrors.email ? 'border-red-500' : ''}
@@ -177,7 +177,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Mot de passe</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -204,7 +204,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           
           {type === 'register' && (
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
               <div className="relative">
                 <Input
                   id="confirmPassword"
@@ -238,10 +238,10 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {type === 'login' ? 'Logging in...' : 'Creating account...'}
+                {type === 'login' ? 'Connexion en cours...' : 'Création du compte...'}
               </>
             ) : (
-              type === 'login' ? 'Log in' : 'Create account'
+              type === 'login' ? 'Se connecter' : 'Créer un compte'
             )}
           </Button>
         </form>
@@ -252,7 +252,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-card px-2 text-gray-500 dark:text-gray-400">
-              Or continue with
+              Ou continuer avec
             </span>
           </div>
         </div>
