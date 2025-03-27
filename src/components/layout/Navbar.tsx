@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -35,7 +34,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <FileText className="h-6 w-6 text-primary" />
-              <span className="font-medium text-xl">ArticleGen</span>
+              <span className="font-medium text-xl">Bloggio</span>
             </Link>
           </div>
 

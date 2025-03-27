@@ -1,10 +1,11 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authService } from '@/services/airtable';
 
 export type UserRole = 'visitor' | 'user' | 'admin';
 
 export interface User {
   id: string;
+  idUser: string;
   name: string;
   email: string;
   role: UserRole;
@@ -26,29 +27,13 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock authentication function - would be replaced with real backend
-const mockAuth = async (email: string, password: string): Promise<User> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // This is just for demonstration - in a real app, this would verify credentials
-      resolve({
-        id: '1',
-        name: 'Demo User',
-        email: email,
-        role: email.includes('admin') ? 'admin' : 'user',
-        credits: 100
-      });
-    }, 1000);
-  });
-};
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if user is already logged in
+    // Vérifier si l'utilisateur est déjà connecté
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -60,11 +45,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setLoading(true);
       setError(null);
-      const userData = await mockAuth(email, password);
+      const userData = await authService.login(email, password);
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
     } catch (err) {
-      setError('Login failed. Please check your credentials.');
+      setError(err instanceof Error ? err.message : 'Erreur de connexion');
     } finally {
       setLoading(false);
     }
@@ -74,9 +59,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setLoading(true);
       setError(null);
-      // In a real implementation, this would integrate with Google Auth
+      // Note: L'authentification Google devra être implémentée séparément
+      // Pour l'instant, on utilise un mock
       const userData: User = {
         id: '2',
+        idUser: '2',
         name: 'Google User',
         email: 'google@example.com',
         role: 'user',
@@ -85,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
     } catch (err) {
-      setError('Google login failed. Please try again.');
+      setError('La connexion Google a échoué. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
@@ -95,18 +82,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setLoading(true);
       setError(null);
-      // Mock registration - would be replaced with a real API call
-      const userData: User = {
-        id: '3',
-        name: name,
-        email: email,
-        role: 'user',
-        credits: 50 // New users get 50 credits
-      };
+      const userData = await authService.register(name, email, password);
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      setError(err instanceof Error ? err.message : 'Erreur d\'inscription');
     } finally {
       setLoading(false);
     }

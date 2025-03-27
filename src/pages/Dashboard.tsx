@@ -1,6 +1,7 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { structureService } from '@/services/airtable';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { 
@@ -22,98 +23,83 @@ import {
   RefreshCw,
   XCircle,
   Eye,
-  ArrowRight
+  ArrowRight,
+  LayoutDashboard,
+  CreditCard,
+  Settings
 } from 'lucide-react';
 
-// Données fictives pour les structures et les articles
-const mockStructures = [
-  {
-    id: 'structure-1',
-    title: 'Le guide ultime de la création de contenu',
-    status: 'completed',
-    keyword: 'création de contenu',
-    wordCount: 1500,
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-  },
-  {
-    id: 'structure-2',
-    title: '10 astuces SEO pour débutants',
-    status: 'processing',
-    keyword: 'astuces seo',
-    wordCount: 1200,
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-  },
-  {
-    id: 'structure-3',
-    title: 'Comment créer des publications engageantes sur les réseaux sociaux',
-    status: 'failed',
-    keyword: 'engagement réseaux sociaux',
-    wordCount: 1800,
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-  },
-];
-
-const mockArticles = [
-  {
-    id: 'article-1',
-    title: 'Le guide ultime de la création de contenu',
-    status: 'published',
-    wordCount: 1547,
-    thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643',
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-  },
-  {
-    id: 'article-2',
-    title: 'Comment améliorer le SEO de votre site web',
-    status: 'draft',
-    wordCount: 1823,
-    thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f',
-    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-  },
-];
-
-// Badges de statut
-const StatusBadge = ({ status }: { status: string }) => {
-  if (status === 'completed' || status === 'published') {
-    return (
-      <div className="flex items-center px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-        <CheckCircle className="h-3 w-3 mr-1" />
-        {status === 'completed' ? 'terminé' : 'publié'}
-      </div>
-    );
-  } else if (status === 'processing') {
-    return (
-      <div className="flex items-center px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-        <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
-        en cours
-      </div>
-    );
-  } else if (status === 'draft') {
-    return (
-      <div className="flex items-center px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
-        <Edit className="h-3 w-3 mr-1" />
-        brouillon
-      </div>
-    );
-  } else {
-    return (
-      <div className="flex items-center px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
-        <XCircle className="h-3 w-3 mr-1" />
-        échoué
-      </div>
-    );
-  }
-};
+interface ArticleStructure {
+  id: string;
+  id_structure_article: number;
+  thread_id: string;
+  title: string;
+  structure: string;
+  demande_article: string;
+  idUser: string;
+  creation_date: string;
+  update_date: string;
+}
 
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('articles');
+  const [structures, setStructures] = useState<ArticleStructure[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
-  const formatDate = (date: Date) => {
+  useEffect(() => {
+    const fetchStructures = async () => {
+      if (user?.idUser) {
+        try {
+          console.log('Fetching structures for user:', user.idUser);
+          const userStructures = await structureService.getUserStructures(user.idUser);
+          console.log('Structures received:', userStructures);
+          setStructures(userStructures);
+        } catch (error) {
+          console.error('Erreur lors de la récupération des structures:', error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        console.log('No user ID available');
+      }
+    };
+
+    fetchStructures();
+  }, [user?.idUser]);
+
+  const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat('fr-FR', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-    }).format(date);
+    }).format(new Date(dateString));
+  };
+
+  // Badges de statut
+  const StatusBadge = ({ status }: { status: string }) => {
+    if (status === 'completed') {
+      return (
+        <div className="flex items-center px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+          <CheckCircle className="h-3 w-3 mr-1" />
+          terminé
+        </div>
+      );
+    } else if (status === 'processing') {
+      return (
+        <div className="flex items-center px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+          <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+          en cours
+        </div>
+      );
+    } else {
+      return (
+        <div className="flex items-center px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+          <Edit className="h-3 w-3 mr-1" />
+          brouillon
+        </div>
+      );
+    }
   };
 
   return (
@@ -130,83 +116,86 @@ const Dashboard: React.FC = () => {
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Articles générés
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{mockArticles.length}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Structures en attente
-              </CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Structures générés</CardTitle>
+              <RefreshCw className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {mockStructures.filter(s => s.status === 'processing').length}
+                {structures.filter(s => s.demande_article).length}
               </div>
             </CardContent>
           </Card>
-          
           <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Articles publiés
-              </CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Articles générés</CardTitle>
+              <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {mockArticles.filter(a => a.status === 'published').length}
+                0
               </div>
             </CardContent>
           </Card>
-          
           <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Crédits disponibles
-              </CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Crédits restants</CardTitle>
+              <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-primary">100</div>
+              <div className="text-2xl font-bold">
+                {user?.credits || 0}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Paramètres</CardTitle>
+              <Settings className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                <Link to="/settings">
+                  <Button variant="ghost" size="sm">
+                    Configurer
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </div>
         
-        <Tabs defaultValue="articles" value={activeTab} onValueChange={setActiveTab}>
+        <Tabs defaultValue="structures" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-6">
-            <TabsTrigger value="articles">Articles</TabsTrigger>
             <TabsTrigger value="structures">Structures</TabsTrigger>
+            <TabsTrigger value="articles">Articles</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="articles">
-            {mockArticles.length > 0 ? (
+          <TabsContent value="structures">
+            {loading ? (
+              <div className="flex items-center justify-center h-64">
+                <RefreshCw className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : structures.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {mockArticles.map((article) => (
-                  <Card key={article.id} className="overflow-hidden">
-                    <AspectRatio ratio={16/9}>
-                      <img 
-                        src={article.thumbnail} 
-                        alt={article.title}
-                        className="object-cover w-full h-full"
-                      />
-                    </AspectRatio>
-                    <CardHeader className="pb-2">
+                {structures.map((structure) => (
+                  <Card key={structure.id} className="overflow-hidden">
+                    <CardHeader>
                       <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg">{article.title}</CardTitle>
-                        <StatusBadge status={article.status} />
+                        <CardTitle className="text-lg">{structure.title}</CardTitle>
+                        
                       </div>
                       <CardDescription>
-                        {formatDate(article.createdAt)} • {article.wordCount} mots
+                        Créé le {formatDate(structure.creation_date)}
                       </CardDescription>
                     </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        <strong>Dernière mise à jour :</strong> {formatDate(structure.update_date)}
+                      </p>
+                    </CardContent>
                     <CardFooter className="pt-0">
                       <div className="flex space-x-2 w-full">
                         <Button variant="outline" size="sm" className="flex-1">
@@ -218,63 +207,6 @@ const Dashboard: React.FC = () => {
                           Modifier
                         </Button>
                       </div>
-                    </CardFooter>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <Card className="bg-muted/50">
-                <CardHeader>
-                  <CardTitle>Pas encore d'articles</CardTitle>
-                  <CardDescription>
-                    Commencez par créer votre premier article
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter>
-                  <Link to="/new-article">
-                    <Button>
-                      <PlusCircle className="mr-2 h-4 w-4" />
-                      Créer un article
-                    </Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            )}
-          </TabsContent>
-          
-          <TabsContent value="structures">
-            {mockStructures.length > 0 ? (
-              <div className="space-y-4">
-                {mockStructures.map((structure) => (
-                  <Card key={structure.id}>
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-start">
-                        <CardTitle>{structure.title}</CardTitle>
-                        <StatusBadge status={structure.status} />
-                      </div>
-                      <CardDescription>
-                        {formatDate(structure.createdAt)} • Mot-clé : {structure.keyword} • {structure.wordCount} mots
-                      </CardDescription>
-                    </CardHeader>
-                    <CardFooter className="pt-0 flex justify-end">
-                      {structure.status === 'completed' && (
-                        <Button size="sm">
-                          <ArrowRight className="h-4 w-4 mr-2" />
-                          Continuer vers l'article
-                        </Button>
-                      )}
-                      {structure.status === 'processing' && (
-                        <Button size="sm" variant="outline" disabled>
-                          <Clock className="h-4 w-4 mr-2" />
-                          Traitement en cours...
-                        </Button>
-                      )}
-                      {structure.status === 'failed' && (
-                        <Button size="sm" variant="outline">
-                          <RefreshCw className="h-4 w-4 mr-2" />
-                          Réessayer
-                        </Button>
-                      )}
                     </CardFooter>
                   </Card>
                 ))}
@@ -297,6 +229,17 @@ const Dashboard: React.FC = () => {
                 </CardFooter>
               </Card>
             )}
+          </TabsContent>
+          
+          <TabsContent value="articles">
+            <Card className="bg-muted/50">
+              <CardHeader>
+                <CardTitle>Articles générés</CardTitle>
+                <CardDescription>
+                  Les articles générés à partir de vos structures apparaîtront ici
+                </CardDescription>
+              </CardHeader>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

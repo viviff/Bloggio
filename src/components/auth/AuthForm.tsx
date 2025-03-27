@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -94,7 +93,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
         await login(email, password);
         toast({
           title: "Connexion réussie",
-          description: "Bienvenue sur ArticleGen",
+          description: "Bienvenue sur Bloggio",
         });
         navigate('/dashboard');
       } else {
@@ -116,7 +115,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       await loginWithGoogle();
       toast({
         title: "Connexion Google réussie",
-        description: "Bienvenue sur ArticleGen",
+        description: "Bienvenue sur Bloggio",
       });
       navigate('/dashboard');
     } catch (err) {

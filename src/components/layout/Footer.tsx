@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FileText, Heart } from 'lucide-react';
@@ -13,7 +12,7 @@ const Footer: React.FC = () => {
           <div className="flex items-center mb-6 md:mb-0">
             <Link to="/" className="flex items-center space-x-2">
               <FileText className="h-5 w-5 text-primary" />
-              <span className="font-medium text-lg">ArticleGen</span>
+              <span className="font-medium text-lg">Bloggio</span>
             </Link>
           </div>
           
@@ -80,9 +79,9 @@ const Footer: React.FC = () => {
         
         <div className="pt-8 mt-8 border-t border-gray-200 dark:border-gray-800">
           <p className="text-center text-xs text-gray-600 dark:text-gray-400">
-            © {currentYear} ArticleGen. Tous droits réservés. Fait avec{' '}
+            © {currentYear} Bloggio. Tous droits réservés. Fait avec{' '}
             <Heart className="inline-block h-3 w-3 text-red-500 align-middle" />{' '}
-            par ArticleGen.
+            par Bloggio.
           </p>
         </div>
       </div>

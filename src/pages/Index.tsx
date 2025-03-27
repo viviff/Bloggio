@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -119,7 +118,7 @@ const Index: React.FC = () => {
             <div className="flex flex-col md:flex-row gap-12 items-center">
               <div className="md:w-1/2">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Pourquoi choisir ArticleGen
+                  Pourquoi choisir Bloggio
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
                   Notre générateur d'articles IA vous aide à créer du contenu de haute qualité, 
@@ -171,7 +170,7 @@ const Index: React.FC = () => {
                 Ce que disent nos utilisateurs
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Rejoignez des milliers de créateurs de contenu qui gagnent du temps avec ArticleGen
+                Rejoignez des milliers de créateurs de contenu qui gagnent du temps avec Bloggio
               </p>
             </div>
             
@@ -181,19 +180,19 @@ const Index: React.FC = () => {
                   name: 'Sarah Durand',
                   role: 'Responsable marketing de contenu',
                   image: 'https://randomuser.me/api/portraits/women/12.jpg',
-                  quote: 'ArticleGen a transformé mon processus de création de contenu. Ce qui me prenait des heures prend maintenant quelques minutes, et la qualité est tout aussi bonne, voire meilleure.'
+                  quote: 'Bloggio a transformé mon processus de création de contenu. Ce qui me prenait des heures prend maintenant quelques minutes, et la qualité est tout aussi bonne, voire meilleure.'
                 },
                 {
                   name: 'Michel Chen',
                   role: 'Spécialiste SEO',
                   image: 'https://randomuser.me/api/portraits/men/32.jpg',
-                  quote: 'L\'optimisation SEO est incroyable. Nos articles générés via ArticleGen sont bien mieux classés que notre contenu créé manuellement. Ça a changé la donne.'
+                  quote: 'L\'optimisation SEO est incroyable. Nos articles générés via Bloggio sont bien mieux classés que notre contenu créé manuellement. Ça a changé la donne.'
                 },
                 {
                   name: 'Émilie Lefèvre',
                   role: 'Propriétaire de blog',
                   image: 'https://randomuser.me/api/portraits/women/23.jpg',
-                  quote: 'En tant que gestionnaire de plusieurs blogs, ArticleGen m\'a permis d\'augmenter ma production de contenu sans sacrifier la qualité. L\'intégration WordPress est parfaite.'
+                  quote: 'En tant que gestionnaire de plusieurs blogs, Bloggio m\'a permis d\'augmenter ma production de contenu sans sacrifier la qualité. L\'intégration WordPress est parfaite.'
                 }
               ].map((testimonial, index) => (
                 <div key={index} className="glass-card rounded-lg p-6 flex flex-col animate-slide-in" style={{ animationDelay: `${index * 0.1}s` }}>
