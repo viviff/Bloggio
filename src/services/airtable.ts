@@ -34,18 +34,17 @@ interface AirtableStructure {
 interface AirtableArticle {
   id: string;
   fields: {
-    ArticleNumber: number;
     title: string;
-    meta_title: string;
-    meta_description: string;
+    'meta-title': string;
+    'meta-description': string;
     introduction: string;
     body: string;
     conclusion: string;
     html: string;
+    statut: string;
     miniature: string;
     idStructure: string;
     idUser: string;
-    idArticle: string; // ID généré par Airtable
   };
 }
 
@@ -225,6 +224,31 @@ export const structureService = {
       console.error('Erreur lors de la mise à jour de la structure:', error);
       throw error;
     }
+  },
+
+  // Récupérer le nombre de mots depuis la demande d'article
+  async getWordCountFromDemande(demandeId: string) {
+    try {
+      if (!demandeId) {
+        throw new Error('Aucune demande d\'article trouvée');
+      }
+
+      const records = await base('Demande_article')
+        .select({
+          filterByFormula: `RECORD_ID() = '${demandeId}'`
+        })
+        .firstPage();
+
+      if (records.length === 0) {
+        throw new Error('Demande d\'article non trouvée');
+      }
+
+      console.log('Demande article trouvée:', records[0].fields);
+      return records[0].fields.nombre_de_mot as number;
+    } catch (error) {
+      console.error('Erreur lors de la récupération du nombre de mots:', error);
+      throw error;
+    }
   }
 };
 
@@ -239,12 +263,14 @@ export const articleService = {
         })
         .all();
       
+      console.log('Articles bruts reçus:', records);
+      
       const mappedRecords = records.map(record => ({
         id: record.id,
         ArticleNumber: record.fields.ArticleNumber as number,
         title: record.fields.title as string,
-        meta_title: record.fields.meta_title as string,
-        meta_description: record.fields.meta_description as string,
+        meta_title: record.fields['meta-title'],
+        meta_description: record.fields['meta-description'] ,
         introduction: record.fields.introduction as string,
         body: record.fields.body as string,
         conclusion: record.fields.conclusion as string,
@@ -252,9 +278,12 @@ export const articleService = {
         miniature: record.fields.miniature as string,
         idStructure: record.fields.idStructure as string,
         idUser: record.fields.idUser as string,
-        idArticle: record.id // On utilise l'ID de la ligne Airtable
+        idArticle: record.id,
+        creation_date: record.fields.creation_date as string,
+        statut: record.fields.statut as string
       }));
       
+      console.log('Articles mappés:', mappedRecords);
       return mappedRecords;
     } catch (error) {
       console.error('Erreur lors de la récupération des articles:', error);
@@ -269,8 +298,8 @@ export const articleService = {
         {
           fields: {
             title: articleData.title,
-            meta_title: articleData.meta_title,
-            meta_description: articleData.meta_description,
+            'meta-title': articleData['meta-title'],
+            'meta-description': articleData['meta-description'],
             introduction: articleData.introduction,
             body: articleData.body,
             conclusion: articleData.conclusion,
@@ -287,8 +316,8 @@ export const articleService = {
         id: record.id,
         ArticleNumber: record.fields.ArticleNumber as number,
         title: record.fields.title as string,
-        meta_title: record.fields.meta_title as string,
-        meta_description: record.fields.meta_description as string,
+        meta_title: record.fields['meta-title'] as string,
+        meta_description: record.fields['meta-description'] as string,
         introduction: record.fields.introduction as string,
         body: record.fields.body as string,
         conclusion: record.fields.conclusion as string,
@@ -296,7 +325,7 @@ export const articleService = {
         miniature: record.fields.miniature as string,
         idStructure: record.fields.idStructure as string,
         idUser: record.fields.idUser as string,
-        idArticle: record.id // On utilise l'ID de la ligne Airtable
+        idArticle: record.id
       };
     } catch (error) {
       console.error('Erreur lors de la création de l\'article:', error);
@@ -305,15 +334,14 @@ export const articleService = {
   },
 
   // Mettre à jour un article
-  async updateArticle(id: string, articleData: Partial<AirtableArticle['fields']>) {
+  async updateArticle(id: string, data: Partial<AirtableArticle['fields']>): Promise<void> {
     try {
-      const response = await base('Article').update([
+      await base('Article').update([
         {
           id: id,
-          fields: articleData
+          fields: data
         }
       ]);
-      return response;
     } catch (error) {
       console.error('Erreur lors de la mise à jour de l\'article:', error);
       throw error;

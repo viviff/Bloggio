@@ -73,7 +73,7 @@ const AppRoutes = () => {
             <EditStructure />
           </ProtectedRoute>
         } />
-        <Route path="/edit-article" element={
+        <Route path="/edit-article/:id" element={
           <ProtectedRoute>
             <EditArticle />
           </ProtectedRoute>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { structureService } from '@/services/airtable';
+import { structureService, articleService } from '@/services/airtable';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { 
@@ -26,8 +26,10 @@ import {
   ArrowRight,
   LayoutDashboard,
   CreditCard,
-  Settings
+  Settings,
+  Loader2
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface ArticleStructure {
   id: string;
@@ -42,30 +44,40 @@ interface ArticleStructure {
 }
 
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('articles');
+  const [activeTab, setActiveTab] = useState('structures');
   const [structures, setStructures] = useState<ArticleStructure[]>([]);
+  const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchStructures = async () => {
-      if (user?.idUser) {
-        try {
-          console.log('Fetching structures for user:', user.idUser);
-          const userStructures = await structureService.getUserStructures(user.idUser);
-          console.log('Structures received:', userStructures);
-          setStructures(userStructures);
-        } catch (error) {
-          console.error('Erreur lors de la récupération des structures:', error);
-        } finally {
-          setLoading(false);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (!user?.idUser) {
+          throw new Error('Utilisateur non connecté');
         }
-      } else {
-        console.log('No user ID available');
+
+        // Récupérer les structures
+        const structuresData = await structureService.getUserStructures(user.idUser);
+        console.log('Structures récupérées:', structuresData);
+        setStructures(structuresData);
+
+        // Récupérer les articles
+        const articlesData = await articleService.getUserArticles(user.idUser);
+        console.log('Articles récupérés:', articlesData);
+        setArticles(articlesData);
+      } catch (err) {
+        console.error('Erreur lors du chargement des données:', err);
+        setError(err instanceof Error ? err.message : 'Une erreur est survenue');
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchStructures();
+    fetchData();
   }, [user?.idUser]);
 
   const formatDate = (dateString: string) => {
@@ -102,6 +114,26 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // Filtrer les structures qui ont un article généré
+  const structuresWithArticle = structures.filter(s => s.demande_article);
+  const structuresWithoutArticle = structures.filter(s => !s.demande_article);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -135,7 +167,7 @@ const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                0
+                {articles.length}
               </div>
             </CardContent>
           </Card>
@@ -185,7 +217,6 @@ const Dashboard: React.FC = () => {
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <CardTitle className="text-lg">{structure.title}</CardTitle>
-                        
                       </div>
                       <CardDescription>
                         Créé le {formatDate(structure.creation_date)}
@@ -197,17 +228,20 @@ const Dashboard: React.FC = () => {
                       </p>
                     </CardContent>
                     <CardFooter className="pt-0">
-                      <div className="flex space-x-2 w-full">
-                        <Button variant="outline" size="sm" className="flex-1">
-                          <Eye className="h-4 w-4 mr-2" />
-                          Voir
-                        </Button>
+                      <div className="flex gap-2 w-full">
                         <Link to={`/edit-structure/${structure.id}`} className="flex-1">
                           <Button size="sm" className="w-full">
                             <Edit className="h-4 w-4 mr-2" />
                             Modifier
                           </Button>
                         </Link>
+                        <Button 
+                          size="sm" 
+                          className="flex-1 bg-green-600 hover:bg-green-700"
+                        >
+                          <CheckCircle className="h-4 w-4 mr-2" />
+                          Valider
+                        </Button>
                       </div>
                     </CardFooter>
                   </Card>
@@ -234,14 +268,75 @@ const Dashboard: React.FC = () => {
           </TabsContent>
           
           <TabsContent value="articles">
-            <Card className="bg-muted/50">
-              <CardHeader>
-                <CardTitle>Articles générés</CardTitle>
-                <CardDescription>
-                  Les articles générés à partir de vos structures apparaîtront ici
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            {loading ? (
+              <div className="flex items-center justify-center h-64">
+                <RefreshCw className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : articles.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {articles.map((article) => (
+                  <Card key={article.id} className="overflow-hidden">
+                    <CardHeader>
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-lg">{article.title}</CardTitle>
+                        <Badge 
+                          variant={article.statut === 'Article généré' ? "default" : "secondary"}
+                          className={article.statut === 'Article généré' ? "bg-green-500 hover:bg-green-600" : ""}
+                        >
+                          {article.statut === 'Article généré' ? (
+                            <div className="flex items-center gap-1">
+                              <CheckCircle className="h-3 w-3" />
+                              {article.statut}
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {article.statut}
+                            </div>
+                          )}
+                        </Badge>
+                      </div>
+                      <CardDescription>
+                        Créé le {formatDate(article.creation_date)}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        {article.meta_description}
+                      </p>
+                    </CardContent>
+                    <CardFooter className="pt-0">
+                      <div className="flex gap-2 w-full">
+                        <Link to={`/edit-article/${article.id}`} className="flex-1">
+                          <Button size="sm" className="w-full">
+                            <Edit className="h-4 w-4 mr-2" />
+                            Modifier
+                          </Button>
+                        </Link>
+                        {article.statut === 'Article généré' && (
+                          <Button 
+                            size="sm" 
+                            className="flex-1 bg-green-600 hover:bg-green-700"
+                          >
+                            <CheckCircle className="h-4 w-4 mr-2" />
+                            Publier
+                          </Button>
+                        )}
+                      </div>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <Card className="bg-muted/50">
+                <CardHeader>
+                  <CardTitle>Aucun article généré</CardTitle>
+                  <CardDescription>
+                    Les articles générés à partir de vos structures apparaîtront ici
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            )}
           </TabsContent>
         </Tabs>
       </div>

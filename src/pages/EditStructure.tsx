@@ -94,6 +94,49 @@ const EditStructure: React.FC = () => {
     }
   };
 
+  const handleValidate = async () => {
+    if (!structure) return;
+
+    try {
+      // Récupérer le nombre de mots depuis la demande d'article
+      const wordCount = await structureService.getWordCountFromDemande(structure.demande_article);
+
+      // Préparer les données à envoyer
+      const data = {
+        threadId: structure.thread_id,
+        structure: structure.structure,
+        wordCount: wordCount,
+        idUser: structure.idUser,
+        idStructure: structure.id
+      };
+
+      // Envoyer les données au webhook
+      const response = await fetch('https://tool.servprivjbd.fr/webhook-test/49a64bb6-dafb-4f72-bf58-6b41ac84af1b', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'envoi des données');
+      }
+
+      toast({
+        title: "Structure validée",
+        description: "Les données ont été envoyées avec succès",
+      });
+    } catch (error) {
+      console.error('Erreur lors de la validation:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la validation",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -159,11 +202,11 @@ const EditStructure: React.FC = () => {
               variant="outline" 
               onClick={handleSave}
               disabled={isSaving || editedStructure === structure.structure}
-              className="bg-blue-600 text-white hover:bg-blue-700 hover:text-white"
             >
               {isSaving ? 'Enregistrement...' : 'Enregistrer'}
             </Button>
             <Button 
+              onClick={handleValidate}
               disabled={isSaving}
               className="bg-green-600 hover:bg-green-700"
             >
