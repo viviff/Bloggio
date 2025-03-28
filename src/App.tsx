@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -69,7 +68,7 @@ const AppRoutes = () => {
             <NewArticle />
           </ProtectedRoute>
         } />
-        <Route path="/edit-structure" element={
+        <Route path="/edit-structure/:id" element={
           <ProtectedRoute>
             <EditStructure />
           </ProtectedRoute>

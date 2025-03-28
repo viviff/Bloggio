@@ -30,6 +30,25 @@ interface AirtableStructure {
   };
 }
 
+// Interface pour les articles
+interface AirtableArticle {
+  id: string;
+  fields: {
+    ArticleNumber: number;
+    title: string;
+    meta_title: string;
+    meta_description: string;
+    introduction: string;
+    body: string;
+    conclusion: string;
+    html: string;
+    miniature: string;
+    idStructure: string;
+    idUser: string;
+    idArticle: string; // ID généré par Airtable
+  };
+}
+
 // Service d'authentification
 export const authService = {
   // Vérifier les identifiants de connexion
@@ -187,6 +206,116 @@ export const structureService = {
       };
     } catch (error) {
       console.error('Erreur lors de la création de la structure:', error);
+      throw error;
+    }
+  },
+
+  updateStructure: async (id: string, structure: string) => {
+    try {
+      const response = await base('Structure_article').update([
+        {
+          id: id,
+          fields: {
+            structure: structure
+          }
+        }
+      ]);
+      return response;
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la structure:', error);
+      throw error;
+    }
+  }
+};
+
+// Service pour les articles
+export const articleService = {
+  // Récupérer tous les articles d'un utilisateur
+  async getUserArticles(userId: string) {
+    try {
+      const records = await base('Article')
+        .select({
+          filterByFormula: `{idUser} = '${userId}'`
+        })
+        .all();
+      
+      const mappedRecords = records.map(record => ({
+        id: record.id,
+        ArticleNumber: record.fields.ArticleNumber as number,
+        title: record.fields.title as string,
+        meta_title: record.fields.meta_title as string,
+        meta_description: record.fields.meta_description as string,
+        introduction: record.fields.introduction as string,
+        body: record.fields.body as string,
+        conclusion: record.fields.conclusion as string,
+        html: record.fields.html as string,
+        miniature: record.fields.miniature as string,
+        idStructure: record.fields.idStructure as string,
+        idUser: record.fields.idUser as string,
+        idArticle: record.id // On utilise l'ID de la ligne Airtable
+      }));
+      
+      return mappedRecords;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des articles:', error);
+      throw error;
+    }
+  },
+
+  // Créer un nouvel article
+  async createArticle(articleData: Omit<AirtableArticle['fields'], 'ArticleNumber' | 'idArticle'>) {
+    try {
+      const records = await base('Article').create([
+        {
+          fields: {
+            title: articleData.title,
+            meta_title: articleData.meta_title,
+            meta_description: articleData.meta_description,
+            introduction: articleData.introduction,
+            body: articleData.body,
+            conclusion: articleData.conclusion,
+            html: articleData.html,
+            miniature: articleData.miniature,
+            idStructure: articleData.idStructure,
+            idUser: articleData.idUser
+          }
+        }
+      ]);
+
+      const record = records[0];
+      return {
+        id: record.id,
+        ArticleNumber: record.fields.ArticleNumber as number,
+        title: record.fields.title as string,
+        meta_title: record.fields.meta_title as string,
+        meta_description: record.fields.meta_description as string,
+        introduction: record.fields.introduction as string,
+        body: record.fields.body as string,
+        conclusion: record.fields.conclusion as string,
+        html: record.fields.html as string,
+        miniature: record.fields.miniature as string,
+        idStructure: record.fields.idStructure as string,
+        idUser: record.fields.idUser as string,
+        idArticle: record.id // On utilise l'ID de la ligne Airtable
+      };
+    } catch (error) {
+      console.error('Erreur lors de la création de l\'article:', error);
+      throw error;
+    }
+  },
+
+  // Mettre à jour un article
+  async updateArticle(id: string, articleData: Partial<AirtableArticle['fields']>) {
+    try {
+      const response = await base('Article').update([
+        {
+          id: id,
+          fields: articleData
+        }
+      ]);
+      return response;
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de l\'article:', error);
       throw error;
     }
   }

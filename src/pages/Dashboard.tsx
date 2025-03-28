@@ -202,10 +202,12 @@ const Dashboard: React.FC = () => {
                           <Eye className="h-4 w-4 mr-2" />
                           Voir
                         </Button>
-                        <Button size="sm" className="flex-1">
-                          <Edit className="h-4 w-4 mr-2" />
-                          Modifier
-                        </Button>
+                        <Link to={`/edit-structure/${structure.id}`} className="flex-1">
+                          <Button size="sm" className="w-full">
+                            <Edit className="h-4 w-4 mr-2" />
+                            Modifier
+                          </Button>
+                        </Link>
                       </div>
                     </CardFooter>
                   </Card>
