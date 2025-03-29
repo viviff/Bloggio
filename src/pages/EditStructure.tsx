@@ -111,7 +111,7 @@ const EditStructure: React.FC = () => {
       };
 
       // Envoyer les données au webhook
-      const response = await fetch('https://tool.servprivjbd.fr/webhook-test/49a64bb6-dafb-4f72-bf58-6b41ac84af1b', {
+      const response = await fetch('https://tool.servprivjbd.fr/webhook/49a64bb6-dafb-4f72-bf58-6b41ac84af1b', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
