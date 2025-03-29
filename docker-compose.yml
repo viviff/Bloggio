@@ -1,8 +1,7 @@
-version: '3'
 services:
   site-react:
     build: .
-    container_name: site-react
+    container_name: bloggios-react
     ports:
       - "3000:80"
     restart: unless-stopped

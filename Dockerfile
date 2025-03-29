@@ -1,13 +1,21 @@
-# Étape 1 : Construction de l'application React
-FROM node:alpine AS build
+# Étape 1 : Build avec Vite
+FROM node:18-alpine AS build
 WORKDIR /app
+
+# Copier et installer les dépendances
 COPY package*.json ./
 RUN npm install
+
+# Copier le reste du projet et build
 COPY . .
 RUN npm run build
 
-# Étape 2 : Configuration de Nginx pour servir l'application
+# Étape 2 : Serveur Nginx pour servir les fichiers statiques
 FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Port d'écoute
 EXPOSE 80
+
+# Lancer nginx
 CMD ["nginx", "-g", "daemon off;"]
