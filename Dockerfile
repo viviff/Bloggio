@@ -1,5 +1,5 @@
-# Étape 1 : Build avec Vite
-FROM node:18-alpine AS build
+# Build stage
+FROM node:18-alpine as build
 WORKDIR /app
 
 # Copier et installer les dépendances
@@ -10,8 +10,13 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Étape 2 : Serveur Nginx pour servir les fichiers statiques
+# Production stage
 FROM nginx:alpine
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built assets from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Port d'écoute
