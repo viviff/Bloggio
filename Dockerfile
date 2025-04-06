@@ -15,6 +15,7 @@ RUN echo "🟨 Début de l'étape nginx"
 
 # FORCE CLEAR
 RUN rm -f /etc/nginx/conf.d/default.conf
+RUN rm -f /docker-entrypoint.d/*-envsubst-on-templates.sh
 
 # COPY TON FICHIER (renommé pour test)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
